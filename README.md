@@ -35,6 +35,3 @@ Sistema completo de controle financeiro pessoal desenvolvido como projeto de por
 | Chart.js | Gráficos interativos |
 | Font Awesome | Ícones profissionais |
 
----
-
-## 📁 Estrutura do Projeto
