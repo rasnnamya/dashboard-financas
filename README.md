@@ -9,8 +9,7 @@
 
 Sistema completo de controle financeiro pessoal desenvolvido como projeto de portfólio. Demonstra habilidades em **Front-end** com foco em **UX/UI**, **lógica de programação**, **gráficos interativos** e **armazenamento local**.
 
-🔗 **Demo:** [https://dashboard-financas.netlify.app](https://dashboard-financas.netlify.app)
-
+🔗 **Demo:** https://dashboardfinancas.netlify.app/
 ---
 
 ## ✨ Funcionalidades
