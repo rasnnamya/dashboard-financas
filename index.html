@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finanças Pessoais | Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TELA DE LOGIN -->
+  <div id="login-container" class="auth-container">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <i class="fas fa-leaf"></i>
+        <h2>Finanças<span>Campo</span></h2>
+      </div>
+      <h3>Bem-vindo de volta</h3>
+      <p>Faça login para acessar suas finanças</p>
+      
+      <div class="auth-form">
+        <input type="email" id="login-email" placeholder="seu@email.com" class="auth-input">
+        <input type="password" id="login-senha" placeholder="Sua senha" class="auth-input">
+        <button id="btn-login" class="btn-primary">Entrar</button>
+      </div>
+      
+      <p class="auth-link">Não tem uma conta? <a href="#" id="show-register">Cadastre-se</a></p>
+    </div>
+  </div>
+
+  <!-- TELA DE CADASTRO -->
+  <div id="register-container" class="auth-container" style="display: none;">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <i class="fas fa-leaf"></i>
+        <h2>Finanças<span>Campo</span></h2>
+      </div>
+      <h3>Criar conta</h3>
+      <p>Cadastre-se para começar</p>
+      
+      <div class="auth-form">
+        <input type="text" id="register-nome" placeholder="Seu nome" class="auth-input">
+        <input type="email" id="register-email" placeholder="seu@email.com" class="auth-input">
+        <input type="password" id="register-senha" placeholder="Sua senha" class="auth-input">
+        <input type="password" id="register-confirmar" placeholder="Confirmar senha" class="auth-input">
+        <button id="btn-register" class="btn-primary">Cadastrar</button>
+      </div>
+      
+      <p class="auth-link">Já tem uma conta? <a href="#" id="show-login">Faça login</a></p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD (só aparece após login) -->
+  <div id="dashboard-container" style="display: none;">
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">
+          <i class="fas fa-leaf"></i>
+          <span>Finanças<span>Campo</span></span>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-link active" data-section="dashboard">
+            <i class="fas fa-chart-line"></i> <span>Dashboard</span>
+          </a>
+          <a href="#" class="nav-link" data-section="nova-transacao">
+            <i class="fas fa-plus-circle"></i> <span>Nova Transação</span>
+          </a>
+          <a href="#" class="nav-link" data-section="relatorios">
+            <i class="fas fa-chart-bar"></i> <span>Relatórios</span>
+          </a>
+          <a href="#" class="nav-link" data-section="configuracoes">
+            <i class="fas fa-cog"></i> <span>Configurações</span>
+          </a>
+        </nav>
+        <div class="user-info-sidebar">
+          <i class="fas fa-user-circle"></i>
+          <span id="user-name-display"></span>
+          <button id="btn-logout" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Sair
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-bar">
+          <h1 id="page-title"><i class="fas fa-chart-line"></i> Dashboard Financeiro</h1>
+          <div class="user-info">
+            <span id="user-welcome"></span>
+            <i class="fas fa-user-circle"></i>
+          </div>
+        </header>
+
+        <!-- Seção: Dashboard -->
+        <div id="dashboard-section" class="section-content active">
+          <div class="summary-cards">
+            <div class="card summary-card">
+              <div class="card-icon"><i class="fas fa-coins"></i></div>
+              <div class="card-info">
+                <h3>Saldo Total</h3>
+                <p class="amount" id="total-balance">R$ 0,00</p>
+              </div>
+            </div>
+            <div class="card summary-card income">
+              <div class="card-icon"><i class="fas fa-arrow-up"></i></div>
+              <div class="card-info">
+                <h3>Receitas</h3>
+                <p class="amount" id="total-income">R$ 0,00</p>
+              </div>
+            </div>
+            <div class="card summary-card expense">
+              <div class="card-icon"><i class="fas fa-arrow-down"></i></div>
+              <div class="card-info">
+                <h3>Despesas</h3>
+                <p class="amount" id="total-expense">R$ 0,00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="two-columns">
+            <div class="card chart-card">
+              <h3><i class="fas fa-chart-simple"></i> Resumo Mensal</h3>
+              <canvas id="financeChart" width="400" height="300"></canvas>
+            </div>
+            <div class="card transactions-card">
+              <h3><i class="fas fa-list"></i> Últimas Transações</h3>
+              <div id="transactions-list" class="transactions-list">
+                <p class="empty-message">Nenhuma transação adicionada</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção: Nova Transação -->
+        <div id="nova-transacao-section" class="section-content">
+          <div class="card transaction-form">
+            <h3><i class="fas fa-plus-circle"></i> Adicionar Nova Transação</h3>
+            <div class="form-group">
+              <input type="text" id="descricao" placeholder="Descrição (ex: Venda de Soja)">
+              <input type="number" id="valor" placeholder="Valor (R$)" step="0.01">
+              <select id="tipo">
+                <option value="income">💰 Receita</option>
+                <option value="expense">📉 Despesa</option>
+              </select>
+            </div>
+            
+            <div class="form-group" style="margin-top: 16px;">
+              <div class="date-selector">
+                <select id="nova-dia" class="select-moderno">
+                  <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+                  <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+                  <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+                  <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                  <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                  <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+                  <option value="19">19</option><option value="20">20</option><option value="21">21</option>
+                  <option value="22">22</option><option value="23">23</option><option value="24">24</option>
+                  <option value="25">25</option><option value="26">26</option><option value="27">27</option>
+                  <option value="28">28</option><option value="29">29</option><option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+                
+                <select id="nova-mes" class="select-moderno">
+                  <option value="01">Janeiro</option><option value="02">Fevereiro</option>
+                  <option value="03">Março</option><option value="04">Abril</option>
+                  <option value="05">Maio</option><option value="06">Junho</option>
+                  <option value="07">Julho</option><option value="08">Agosto</option>
+                  <option value="09">Setembro</option><option value="10">Outubro</option>
+                  <option value="11">Novembro</option><option value="12">Dezembro</option>
+                </select>
+                
+                <div class="year-selector">
+                  <button type="button" id="ano-anterior" class="btn-year">←</button>
+                  <span id="ano-atual-display" class="ano-display">2025</span>
+                  <button type="button" id="ano-proximo" class="btn-year">→</button>
+                </div>
+              </div>
+              
+              <button id="add-transacao" class="btn-primary">
+                <i class="fas fa-save"></i> Adicionar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção: Relatórios -->
+        <div id="relatorios-section" class="section-content">
+          <div class="card">
+            <h3><i class="fas fa-calendar-alt"></i> Relatório por Período</h3>
+            
+            <div class="form-group" style="margin-bottom: 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+              <input type="date" id="relatorio-data-inicio" class="select-moderno" style="flex: 1;">
+              <span>até</span>
+              <input type="date" id="relatorio-data-fim" class="select-moderno" style="flex: 1;">
+              <button id="filtrar-relatorio" class="btn-primary">
+                <i class="fas fa-filter"></i> Filtrar
+              </button>
+            </div>
+            
+            <div id="relatorio-resumo" class="relatorio-resumo">
+              <div class="relatorio-card">
+                <h4>Receitas do período</h4>
+                <p class="relatorio-income" id="relatorio-income">R$ 0,00</p>
+              </div>
+              <div class="relatorio-card">
+                <h4>Despesas do período</h4>
+                <p class="relatorio-expense" id="relatorio-expense">R$ 0,00</p>
+              </div>
+              <div class="relatorio-card">
+                <h4>Saldo do período</h4>
+                <p class="relatorio-balance" id="relatorio-balance">R$ 0,00</p>
+              </div>
+            </div>
+            <div id="relatorio-transacoes" class="transactions-list" style="margin-top: 24px;"></div>
+          </div>
+        </div>
+
+        <!-- Seção: Configurações -->
+        <div id="configuracoes-section" class="section-content">
+          <div class="card">
+            <h3><i class="fas fa-database"></i> Gerenciar Dados</h3>
+            <p style="margin-bottom: 20px; color: var(--gray);">Ações para gerenciar suas finanças</p>
+            <div class="config-buttons">
+              <button id="exportar-dados" class="btn-primary" style="background: #4CAF50;">
+                <i class="fas fa-download"></i> Exportar Dados (JSON)
+              </button>
+              <button id="limpar-dados" class="btn-primary" style="background: #D32F2F;">
+                <i class="fas fa-trash-alt"></i> Limpar Todos os Dados
+              </button>
+            </div>
+            <div class="info-box" style="margin-top: 24px;">
+              <p><i class="fas fa-info-circle"></i> <strong>Informações:</strong></p>
+              <p style="font-size: 13px;">Total de transações: <strong id="total-transacoes-count">0</strong></p>
+              <p style="font-size: 13px;">Versão: 1.0.0</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
